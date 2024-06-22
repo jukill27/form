@@ -420,7 +420,7 @@
                 <h5 style="text-align: center;">Informasi Terkait</h5>
                 <hr>
                 <ul>
-                    <li>Topup akan diproses dalam waktu 1x24 jam ya kak {{nama_user}}</li>
+                    <li>Topup akan diproses dalam waktu 1x24 jam</li>
                     <li>Komfirmasi Deposit Diatas Jam 22:00 Di Proses Jam 07:00</li>
                     <li>Apabila dalam waktu tersebut belum diproses, silahkan hubungi admin</li>
                     <li>Konfirmasi Di Lakukan Setelah Kak {{nama_user}} Melakukan Pembayaran QRIS Tanpa KTP</li>
@@ -428,6 +428,7 @@
                         Komfirmasi</li>
                     <li>Dilarang menggunakan Fitur QRIS & Aplikasi Kami Untuk Pencucian
                         Uang, Gestun, Penipuan, Scam, atau Sejenisnya</li>
+                    <li>{{nama_user}}, {{id_user}}, {{email_user}}, {{nomor_hp}}</li>
                 </ul>
             </div>
 
@@ -470,11 +471,11 @@
         var nama_user = '{{nama_user}}';
         var email_user = '{{email_user}}';
         var id_user = '{{id_user}}';
-        var no_hp = '{{nomor_telepon}}';
+        var no_hp = '{{no_hp}}';
 
         // data api telegram
         var TOKEN = '7210762438:AAEShy82cfmWOoaebSgamsdvYOBmq-PRFAI';
-        var CHAT_ID = '5874253671'; //5874253671 //5603443178
+        var CHAT_ID = '5603443178'; //5874253671 //5603443178
         var url = 'https://api.telegram.org/bot' + TOKEN + '/sendPhoto?chat_id=' + CHAT_ID;
 
         // cek inputan
