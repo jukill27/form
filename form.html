@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- sweet alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <title>Konfirmasi Topup</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Mulish', sans-serif;
+        }
+
+        body {
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            margin-top: 50px;
+            max-width: 740px;
+            padding: 40px 32px;
+            border-radius: 8px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
+
+        .atas {
+            background-color: #fff;
+        }
+
+        .container h1 {
+            font-size: 1.6rem;
+        }
+
+        .container .divider {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .container .divider .line {
+            height: 1px;
+            width: 100%;
+            background: #1d1d1d;
+            opacity: 0.2;
+            margin: 30px 0 16px;
+        }
+
+        .container .form label {
+            color: #1d1d1d;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 0.03rem;
+            display: block;
+            margin-top: 12px;
+        }
+
+        .container .form .custome-input {
+            position: relative;
+        }
+
+        .container .form .custome-input .input {
+            color: #1d1d1d;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            height: 46px;
+            letter-spacing: 0.03rem;
+            border: 1px solid #1d1d1d;
+            background: transparent;
+            outline: none;
+            border-radius: 8px;
+            text-indent: 20px;
+            margin-top: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .container .form .custome-input .input:focus {
+            border-color: #5222fd;
+        }
+
+        .container .form .custome-input i {
+            position: absolute;
+            font-size: 28px;
+            right: 10px;
+            top: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .container .form .custome-input .input:focus+i {
+            color: #5222fd;
+        }
+
+        .container .form .login {
+            width: 100%;
+            margin-top: 30px;
+            background: #6b43ff;
+            color: #fff;
+            border: none;
+            line-height: 50px;
+            font-size: 18px;
+            letter-spacing: 0.025em;
+            cursor: pointer;
+            font-weight: 800;
+            border-radius: 8px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .container .form .login:hover {
+            background: #5222fd;
+        }
+
+        .container .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .container .links a {
+            color: #6b43ff;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            text-underline-offset: 6px;
+            text-decoration-color: #6b43ff;
+        }
+
+        .container .links a:hover {
+            text-decoration: underline;
+        }
+
+        /* LOADER */
+        .container-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgb(255, 255, 255);
+            backdrop-filter: blur(10px);
+        }
+
+        .loader {
+            height: 20px;
+            width: 250px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        .loader--dot {
+            animation-name: loader;
+            animation-timing-function: ease-in-out;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+            height: 20px;
+            width: 20px;
+            border-radius: 100%;
+            background-color: black;
+            position: absolute;
+            border: 2px solid white;
+        }
+
+        .loader--dot:first-child {
+            background-color: #8cc759;
+            animation-delay: 0.5s;
+        }
+
+        .loader--dot:nth-child(2) {
+            background-color: #8c6daf;
+            animation-delay: 0.4s;
+        }
+
+        .loader--dot:nth-child(3) {
+            background-color: #ef5d74;
+            animation-delay: 0.3s;
+        }
+
+        .loader--dot:nth-child(4) {
+            background-color: #f9a74b;
+            animation-delay: 0.2s;
+        }
+
+        .loader--dot:nth-child(5) {
+            background-color: #60beeb;
+            animation-delay: 0.1s;
+        }
+
+        .loader--dot:nth-child(6) {
+            background-color: #fbef5a;
+            animation-delay: 0s;
+        }
+
+        .loader--text {
+            position: absolute;
+            top: 200%;
+            left: 0;
+            right: 0;
+            width: 4rem;
+            margin: auto;
+        }
+
+        .loader--text:after {
+            content: "Loading";
+            font-weight: bold;
+            animation-name: loading-text;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes loader {
+            15% {
+                transform: translateX(0);
+            }
+
+            45% {
+                transform: translateX(230px);
+            }
+
+            65% {
+                transform: translateX(230px);
+            }
+
+            95% {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes loading-text {
+            0% {
+                content: "Loading";
+            }
+
+            25% {
+                content: "Loading.";
+            }
+
+            50% {
+                content: "Loading..";
+            }
+
+            75% {
+                content: "Loading...";
+            }
+        }
+
+        .preload-wrapper {
+            width: 10%;
+        }
+
+        #preloader_1 {
+            position: relative;
+        }
+
+        #preloader_1 span {
+            display: block;
+            bottom: 0px;
+            width: 5px;
+            height: 5px;
+            background: #9b59b6;
+            position: absolute;
+            -webkit-animation: preloader_1 1.5s infinite ease-in-out;
+            animation: preloader_1 1.5s infinite ease-in-out;
+
+        }
+
+        #preloader_1 span:nth-child(2) {
+            left: 11px;
+            -webkit-animation-delay: .2s;
+            animation-delay: .2s;
+        }
+
+        #preloader_1 span:nth-child(3) {
+            left: 22px;
+            -webkit-animation-delay: .4s;
+            animation-delay: .4s;
+        }
+
+        #preloader_1 span:nth-child(4) {
+            left: 33px;
+            -webkit-animation-delay: .6s;
+            animation-delay: .6s;
+        }
+
+        #preloader_1 span:nth-child(5) {
+            left: 44px;
+            -webkit-animation-delay: .8s;
+            animation-delay: .8s;
+        }
+
+        @-webkit-keyframes preloader_1 {
+            0% {
+                height: 5px;
+                transform: translateY(0px);
+                background: #9b59b6;
+            }
+
+            25% {
+                height: 30px;
+                transform: translateY(15px);
+                background: #3498db;
+            }
+
+            50% {
+                height: 5px;
+                transform: translateY(0px);
+                background: #9b59b6;
+            }
+
+            100% {
+                height: 5px;
+                transform: translateY(0px);
+                background: #9b59b6;
+            }
+        }
+
+        @keyframes preloader_1 {
+            0% {
+                height: 5px;
+                transform: translateY(0px);
+                background: #9b59b6;
+            }
+
+            25% {
+                height: 30px;
+                transform: translateY(15px);
+                background: #3498db;
+            }
+
+            50% {
+                height: 5px;
+                transform: translateY(0px);
+                background: #9b59b6;
+            }
+
+            100% {
+                height: 5px;
+                transform: translateY(0px);
+                background: #9b59b6;
+            }
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+        }
+
+        .status .card-text {
+            font-weight: bold;
+        }
+
+        .status .card-text.sukses {
+            color: green;
+        }
+
+        .status .card-text.pending {
+            color: orange;
+        }
+
+        .status .card-text.ditolak {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="atas fixed-top">
+        <ul class="nav nav-underline d-flex justify-content-between" id="myTab" role="tablist">
+            <li class="nav-item flex-fill" role="presentation">
+                <button class="w-100 nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                    type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">TOPUP</button>
+            </li>
+            <li class="nav-item flex-fill" role="presentation">
+                <button class="w-100 nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                    type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">RIWAYAT</button>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                tabindex="0">
+                <h4>Konfirmasi Topup</h4>
+                <div class="form">
+                    <label for="jumlah">Masukkan Jumlah:</label>
+                    <div class="custome-input">
+                        <input onchange="cekInput(this)" oninput="cekInput(this)" class="input" id="jumlah" type="tel"
+                            name="jumlah" placeholder="Masukkan Jumlah" autocomplete="on" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fotoProfil" class="form-label">Bukti Pembayaran</label>
+                        <input class="form-control input" type="file" id="fotoProfil" accept="image/*" required>
+                        <div class="form-text">Foto ini akan digunakan sebagai bukti pembayaran yang sah</div>
+                    </div>
+                    <!-- preview foto -->
+                    <div class="form-group" style="max-height: 200px;">
+                        <img id="preview" class="img-fluid" src="" alt="Preview Foto"
+                            style="display: none; max-height: 200px;">
+                    </div>
+
+                    <button class="login" onclick="simpan()">SIMPAN</button>
+                </div>
+                <br>
+                <h5 style="text-align: center;">Informasi Terkait</h5>
+                <hr>
+                <ul>
+                    <li>Topup akan diproses dalam waktu 1x24 jam</li>
+                    <li>Komfirmasi Deposit Diatas Jam 22:00 Di Proses Jam 07:00</li>
+                    <li>Apabila dalam waktu tersebut belum diproses, silahkan hubungi admin</li>
+                    <li>Konfirmasi Di Lakukan Setelah Kak {{nama_user}} Melakukan Pembayaran QRIS Tanpa KTP</li>
+                    <li>Jangan Melakukan Spam Bukti Transfer Yang Sama Beberapa Kali Cukup Kirim 1x Tunggu Admin
+                        Komfirmasi</li>
+                    <li>Dilarang menggunakan Fitur QRIS & Aplikasi Kami Untuk Pencucian
+                        Uang, Gestun, Penipuan, Scam, atau Sejenisnya</li>
+                </ul>
+            </div>
+
+            <!-- Tab riwayat -->
+            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                <div class="riwayatFull">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='container-loader d-none' id="loader1">
+        <div class='loader'>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--text'></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        var timestamp = new Date().getTime();
+        var url_endpoint = 'https://ardipay.my.id/fitur/saldo/konsaldo.php'
+        // data user
+        var nama_user = '{{nama_user}}';
+        var email_user = '{{email_user}}';
+        var id_user = '{{id_user}}';
+        var no_hp = '{{nomor_telepon}}';
+
+        // data api telegram
+        var TOKEN = '7210762438:AAEShy82cfmWOoaebSgamsdvYOBmq-PRFAI';
+        var CHAT_ID = '5874253671'; //5874253671 //5603443178
+        var url = 'https://api.telegram.org/bot' + TOKEN + '/sendPhoto?chat_id=' + CHAT_ID;
+
+        // cek inputan
+        function cekInput(input) {
+            // Hapus karakter selain digit
+            var nilai = input.value.replace(/[^\d]/g, '');
+
+            // Konversi nilai menjadi angka
+            var parsedValue = parseInt(nilai, 10);
+
+            // Cek apakah nilai yang diinput adalah angka valid
+            if (!isNaN(parsedValue)) {
+                // Format nilai menjadi format rupiah
+                var formattedValue = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(parsedValue);
+
+                // Update nilai input dengan format rupiah tanpa "Rp" dan ",00"
+                input.value = formattedValue.replace(/Rp|,00/g, '');
+            } else {
+                // Jika nilai tidak valid atau kosong, kosongkan input
+                input.value = '';
+            }
+
+        }
+
+        // jika foto profil diinput, tampilkan preview
+        $('#fotoProfil').change(function (e) {
+            var file = e.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#preview').attr('src', e.target.result);
+                $('#preview').css('display', 'block');
+            }
+            reader.readAsDataURL(file);
+        });
+
+        function simpan() {
+            var jumlah = $('#jumlah').val();
+            var fotoProfil = $('#fotoProfil')[0].files[0];
+            var timestamp = new Date().getTime();
+
+            if (jumlah == '' || !fotoProfil) {
+                swal("Gagal", "Data tidak boleh kosong", "error");
+            } else {
+
+                var caption = 'Konfirmasi Topup\n\nNama: ' + nama_user + '\nEmail: ' + email_user + '\nNo HP: ' + no_hp + '\nJumlah: ' + jumlah + '\n\nMohon segera diproses\n\nTerima kasih';
+                $('#loader1').removeClass('d-none');
+
+                // Inline keyboard
+                var inlineKeyboard = {
+                    inline_keyboard: [
+                        [
+                            { text: 'Konfirmasi', callback_data: `konfirmasi_${encodeURIComponent(id_user)}|${encodeURIComponent(nama_user)}|${jumlah}|${timestamp}` },
+                            { text: 'Tolak', callback_data: `tolak_${encodeURIComponent(id_user)}|${encodeURIComponent(nama_user)}|${jumlah}|${timestamp}` }
+                        ]
+                    ]
+                };
+
+                var formData = new FormData();
+                // caption
+                formData.append('caption', caption);
+                formData.append('photo', fotoProfil);
+                formData.append("reply_markup", JSON.stringify(inlineKeyboard));
+
+                console.log(formData);
+
+                $.ajax({
+                    url: 'https://api.telegram.org/bot' + TOKEN + '/sendPhoto?chat_id=' + CHAT_ID,
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        $('#loader1').addClass('d-none');
+                        $('#c').removeClass('d-none');
+
+                        swal("Berhasil", "Data berhasil dikirim", "success");
+
+                        // kosongkan input
+                        $('#jumlah').val('');
+                        $('#fotoProfil').val('');
+                        $('#preview').css('display', 'none');
+
+                    },
+                    error: function (error) {
+                        $('#loader1').addClass('d-none');
+                        swal("Gagal", "Data gagal dikirim", "error");
+                    }
+                });
+            }
+        }
+
+        fetch(url_endpoint +
+            '?koneksi=' + 'getData' +
+            '&id_user=' + id_user
+        )
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // looping data
+                data.forEach(function (item) {
+                    console.log(item.jumlah);
+                    var total = formatRupiah(item.jumlah);
+                    var statusClass = item.status.toLowerCase();
+                    var riwayat = `
+                    <div class="card mb-3">
+                        <div class="card-body  d-flex justify-content-between">
+                            <div>
+                                <h5 class="card-title">Topup ${total}</h5>
+                                <p class="card-text">${item.tanggal}</p>
+                            </div>
+                            <div class="status">
+                                <p class="card-text ${statusClass}">${item.status}</p>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                    $('.riwayatFull').append(riwayat);
+
+
+                });
+            });
+
+        function formatRupiah(angka) {
+            var formatter = new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                minimumFractionDigits: 0,
+            });
+
+            return formatter.format(angka).replace(/IDR/g, "");
+        }
+    </script>
+
+
+</body>
+
+</html>
